@@ -1,0 +1,42 @@
+[project]
+name = "support-knowledge-rag"
+version = "0.1.0"
+description = "A measured RAG support assistant over public FOSS product documentation: Qdrant hybrid search, Claude with citations, and an evaluation harness."
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "anthropic>=1.0",          # Claude API: answer generation (tool use) and LLM judge
+    "qdrant-client>=1.12",     # vector DB client; also has an embedded local mode (no Docker)
+    "fastembed>=0.5",          # ONNX embeddings from Hugging Face models: dense (multilingual-e5) + sparse (BM25)
+    "beautifulsoup4>=4.12",    # HTML parsing for the product/service pages in data/raw
+    "pypdf>=5.0",              # PDF text extraction for data/raw/pdfs
+    "httpx>=0.27",             # HTTP client if you add fetching
+    "pydantic>=2.7",           # schemas: chunks, eval cases, judge verdicts
+    "python-dotenv>=1.0",      # loads .env
+    "pyyaml>=6.0",             # eval/config files
+    "rich>=13.7",              # readable CLI output and results tables
+]
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6"]
+# Stretch goals: install only when you get to them, e.g. `uv sync --group api`
+api = ["fastapi>=0.115", "uvicorn>=0.30"]
+mcp = ["mcp>=1.2"]
+notebook = ["ipykernel>=6.29", "pandas>=2.2"]
+
+[tool.uv]
+# No package yet: there is no code. When you create src/<package>/, delete this line and
+# add a [build-system] (hatchling) plus [project.scripts] if you want a CLI entry point.
+package = false
+default-groups = ["dev"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

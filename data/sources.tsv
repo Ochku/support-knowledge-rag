@@ -1,0 +1,114 @@
+path	url	kind	lang	industries	product_title	fetched	bytes	sha256_16
+data/raw/catalogue/products.json	https://www.fossanalytics.com/api/ProductFinder/FindProducts (7 industries, merged)	catalogue	en			2026-10-30	52877	36ebd777dd12dab9
+data/raw/company/about-foss_a-company-on-a-mission.html	https://www.fossanalytics.com/en/about-foss/a-company-on-a-mission	company	en			2026-10-30	37823	20dbc0632e85ac7b
+data/raw/company/about-foss_innovation.html	https://www.fossanalytics.com/en/about-foss/innovation	company	en			2026-10-30	40955	d1d86060500d1cb6
+data/raw/company/about-foss_sustainability.html	https://www.fossanalytics.com/en/about-foss/sustainability	company	en			2026-10-30	52838	706f4d80be8cd835
+data/raw/company/about-foss_who-we-are.html	https://www.fossanalytics.com/en/about-foss/who-we-are	company	en			2026-10-30	59236	942f51151ff2267b
+data/raw/company/about-foss_why-we-go-digital.html	https://www.fossanalytics.com/en/about-foss/why-we-go-digital	company	en			2026-10-30	37479	e3113e41fc491606
+data/raw/company/careers_meet-our-teams.html	https://www.fossanalytics.com/en/careers/meet-our-teams	company	en			2026-10-30	38737	47ae2e8c2f864f2d
+data/raw/company/careers_science-and-technology-at-foss.html	https://www.fossanalytics.com/en/careers/science-and-technology-at-foss	company	en			2026-10-30	45113	1b0757356727d5eb
+data/raw/company/careers_why-work-at-foss.html	https://www.fossanalytics.com/en/careers/why-work-at-foss	company	en			2026-10-30	40129	7f2ed9fdabd267f5
+data/raw/company/industrypages_industry-overview.html	https://www.fossanalytics.com/en/industrypages/industry-overview	company	en			2026-10-30	52352	470a3905266e65cc
+data/raw/pdfs/alphatec-white-paper_gb.pdf	https://www.fossanalytics.com/-/media/files/documents/papers/grain-segment/alphatec-white-paper_gb.ashx	pdfs	en			2026-10-30	561209	76ed23da293c4b78
+data/raw/pdfs/annwhitepaper_en_pdf.pdf	https://www.fossanalytics.com/-/media/files/documents/papers/grain-segment/annwhitepaper_en_pdf.ashx	pdfs	en			2026-10-30	389628	906e04eb6d505cf5
+data/raw/pdfs/dscc---a-rationale-for-the-parameter.pdf	https://www.fossanalytics.com/-/media/files/documents/papers/raw-milk-testing-segment/dscc---a-rationale-for-the-parameter.ashx	pdfs	en			2026-10-30	998390	76d7dd2cf39b9f3d
+data/raw/pdfs/ebook-fibre-analysis-of-animal-feed-gb.pdf	https://www.fossanalytics.com/-/media/files/documents/papers/laboratories-segment/ebook-fibre-analysis-of-animal-feed-gb.ashx	pdfs	en			2026-10-30	985570	001b3d51fd16cedd
+data/raw/pdfs/fibre-methods-compared_gb.pdf	https://www.fossanalytics.com/-/media/files/documents/papers/laboratories-segment/fibre-methods-compared_gb.ashx	pdfs	en			2026-10-30	800917	5a92f85aa2912881
+data/raw/pdfs/fish_industries_brochure_gb.pdf	https://www.fossanalytics.com/-/media/files/documents/brochuresanddatasheets/segments/meat-segment/fish_industries_brochure_gb.ashx	pdfs	en			2026-10-30	1447917	2dbffbedc639f847
+data/raw/pdfs/global-standard-adf_lignin-_1_.pdf	https://www.fossanalytics.com/-/media/files/documents/papers/laboratories-segment/global-standard-adf_lignin-(1).ashx	pdfs	en			2026-10-30	292375	62bdf43e66b6c4e5
+data/raw/pdfs/guide_nir_calibration-best-practice_gb.pdf	https://www.fossanalytics.com/-/media/files/documents/papers/feed-and-forage-segment/guide_nir_calibration-best-practice_gb.ashx	pdfs	en			2026-10-30	2239771	4d12a14afd2f8b75
+data/raw/pdfs/qualification-adulteration-screening-with-nir_gb.pdf	https://www.fossanalytics.com/-/media/files/documents/papers/dairy-segment/qualification-adulteration-screening-with-nir_gb.ashx	pdfs	en			2026-10-30	990902	5e423748017cdb1e
+data/raw/pdfs/rapid-methods-for-fat-analysis-in-the-meat-industry_gb.pdf	https://www.fossanalytics.com/-/media/files/documents/papers/meat-segment/rapid-methods-for-fat-analysis-in-the-meat-industry_gb.ashx	pdfs	en			2026-10-30	1359878	19fee0e2467e9a4c
+data/raw/pdfs/standardization-of-ft-ir-instruments_gb.pdf	https://www.fossanalytics.com/-/media/files/documents/papers/dairy-segment/standardization-of-ft-ir-instruments_gb.ashx	pdfs	en			2026-10-30	478586	3467e0d4b621c489
+data/raw/pdfs/the-new-fossomatic-7-dc--scc-and-a-novel-parameter.pdf	https://www.fossanalytics.com/-/media/files/documents/papers/raw-milk-testing-segment/the-new-fossomatic-7-dc--scc-and-a-novel-parameter.ashx	pdfs	en			2026-10-30	467876	1917270ae36dba93
+data/raw/pdfs/using-spectrometry-for-simultaneous-measurement-gb.pdf	https://www.fossanalytics.com/-/media/files/documents/papers/meat-segment/using-spectrometry-for-simultaneous-measurement-gb.ashx	pdfs	en			2026-10-30	1324783	9372e97a04de69a2
+data/raw/products/de/foodscan-2-meat-analyser.html	https://www.fossanalytics.com/de-de/products/foodscan-2-meat-analyser	products	de	meat	FoodScan™ 2 Meat Analyser	2026-10-30	201705	8bc7739da78e5754
+data/raw/products/de/fossomatic-7.html	https://www.fossanalytics.com/de-de/products/fossomatic-7	products	de	rmt	Fossomatic™ 7 	2026-10-30	112177	94e24df0b4131b70
+data/raw/products/de/infratec-nova.html	https://www.fossanalytics.com/de-de/products/infratec-nova	products	de	grain	Infratec™ NOVA	2026-10-30	152682	93cbcd379f323040
+data/raw/products/de/kjeltec-9-analyser.html	https://www.fossanalytics.com/de-de/products/kjeltec-9-analyser	products	de	dairy;feed-and-forage;lab;meat	Kjeltec™ 9 - Automated Kjeldahl Analysis 	2026-10-30	128603	5ff96660de579bb5
+data/raw/products/de/meatmaster-ii.html	https://www.fossanalytics.com/de-de/products/meatmaster-ii	products	de	meat	MeatMaster™ II	2026-10-30	155247	5443a6b3d8f7f7cd
+data/raw/products/de/milkoscan-ft3.html	https://www.fossanalytics.com/de-de/products/milkoscan-ft3	products	de	dairy;rmt	MilkoScan™ FT3 - Milk Analyser	2026-10-30	119848	dc5530fa6909cef4
+data/raw/products/de/nirs-ds3-feed.html	https://www.fossanalytics.com/de-de/products/nirs-ds3-feed	products	de	feed-and-forage	NIRS™ DS3 Feed	2026-10-30	192439	80a6bf716d4cce0e
+data/raw/products/de/winescan-3.html	https://www.fossanalytics.com/de-de/products/winescan-3	products	de	wine	WineScan™ 3	2026-10-30	116400	ac6c00a3f8a23781
+data/raw/products/en/alphatec.html	https://www.fossanalytics.com/en/products/alphatec	products	en	grain	Alphatec™ F№	2026-10-30	142968	091426c8b4de9799
+data/raw/products/en/autosampler-for-kjeltec-9-analyser.html	https://www.fossanalytics.com/en/products/autosampler-for-kjeltec-9-analyser	products	en	dairy;feed-and-forage;lab;meat	 Autosampler for Kjeltec™ 9 Analyser	2026-10-30	120486	7428aea5421ffb84
+data/raw/products/en/bacsomatic.html	https://www.fossanalytics.com/en/products/bacsomatic	products	en	dairy;rmt	BacSomatic™	2026-10-30	191396	e45b83d23c8077c7
+data/raw/products/en/bactoscan-fc-plus.html	https://www.fossanalytics.com/en/products/bactoscan-fc-plus	products	en	dairy;rmt	BactoScan™ FC+	2026-10-30	107695	4a943ce29725e2ff
+data/raw/products/en/bactoscan.html	https://www.fossanalytics.com/en/products/bactoscan	products	en	rmt	BactoScan™ 5	2026-10-30	122306	1fed5df3cf746e3b
+data/raw/products/en/beerfoss-go.html	https://www.fossanalytics.com/en/products/beerfoss-go	products	en	wine	BeerFoss™ FT Go	2026-10-30	106206	7ec3d4501a810818
+data/raw/products/en/cm-290-cemotec.html	https://www.fossanalytics.com/en/products/cm-290-cemotec	products	en	lab	CM 290 Cemotec™	2026-10-30	108147	06ae0f18c2d7d29a
+data/raw/products/en/combifoss-7.html	https://www.fossanalytics.com/en/products/combifoss-7	products	en	dairy;rmt	CombiFoss™ 7 	2026-10-30	198191	2c01b06669b73ecf
+data/raw/products/en/ct-293-cyclotec.html	https://www.fossanalytics.com/en/products/ct-293-cyclotec	products	en	lab	CT 293 Cyclotec™	2026-10-30	108051	610710a0ec29ced7
+data/raw/products/en/dairyscan.html	https://www.fossanalytics.com/en/products/dairyscan	products	en	dairy	DairyScan™	2026-10-30	100737	761472c12e3c3bf7
+data/raw/products/en/digestor_2508_2520.html	https://www.fossanalytics.com/en/products/digestor_2508_2520	products	en	lab	Digestor™  2508 and 2520	2026-10-30	112308	fb57792f1eaabab7
+data/raw/products/en/dt_208_220_digestor.html	https://www.fossanalytics.com/en/products/dt_208_220_digestor	products	en	lab	DT 208 & 220 Digestor™ 	2026-10-30	108243	0ff03dbabbf7faa6
+data/raw/products/en/eyefoss.html	https://www.fossanalytics.com/en/products/eyefoss	products	en	grain	EyeFoss™	2026-10-30	143088	fd9a3a65e2ed5dd4
+data/raw/products/en/fibertec-8000.html	https://www.fossanalytics.com/en/products/fibertec-8000	products	en	dairy;feed-and-forage;lab	Fibertec™ 8000	2026-10-30	149426	6c1fc12eb42528c7
+data/raw/products/en/fibertec1023.html	https://www.fossanalytics.com/en/products/fibertec1023	products	en	lab	Fibertec™ 1023	2026-10-30	103561	120703c27ce5d9b5
+data/raw/products/en/foodscan-2-dairy.html	https://www.fossanalytics.com/en/products/foodscan-2-dairy	products	en	dairy;lab	FoodScan™ 2 Dairy	2026-10-30	153671	97721aa6f55e35f9
+data/raw/products/en/foodscan-2-meat-analyser.html	https://www.fossanalytics.com/en/products/foodscan-2-meat-analyser	products	en	meat	FoodScan™ 2 Meat Analyser	2026-10-30	208625	afa6f8088b99b916
+data/raw/products/en/foodscan-fish-analyser.html	https://www.fossanalytics.com/en/products/foodscan-fish-analyser	products	en	meat	FoodScan™ 2 Fish Analyser	2026-10-30	105182	65b46de44908b936
+data/raw/products/en/fosscalibrator-and-fosscalibrator-pro.html	https://www.fossanalytics.com/en/products/fosscalibrator-and-fosscalibrator-pro	products	en	dairy;feed-and-forage;grain;meat;rmt	FossCalibrator™ and FossCalibrator™ Pro	2026-10-30	102595	febe22ab8f426b75
+data/raw/products/en/fossomatic-7-dc.html	https://www.fossanalytics.com/en/products/fossomatic-7-dc	products	en	rmt	Fossomatic™ 7 DC	2026-10-30	189915	c7e96386643c3a7b
+data/raw/products/en/fossomatic-7.html	https://www.fossanalytics.com/en/products/fossomatic-7	products	en	rmt	Fossomatic™ 7 	2026-10-30	112138	159a6d88d94f4a8c
+data/raw/products/en/ft-122-fibertec.html	https://www.fossanalytics.com/en/products/ft-122-fibertec	products	en	lab	FT 122 Fibertec™	2026-10-30	147536	c38adb75927aef7d
+data/raw/products/en/hammertec.html	https://www.fossanalytics.com/en/products/hammertec	products	en	grain	Hammertec™	2026-10-30	99190	e8f964fa01fba72a
+data/raw/products/en/hydrotec-8000.html	https://www.fossanalytics.com/en/products/hydrotec-8000	products	en	lab	Hydrotec™ 8000	2026-10-30	105735	42246a2d1c565086
+data/raw/products/en/infratec-nova.html	https://www.fossanalytics.com/en/products/infratec-nova	products	en	grain	Infratec™ NOVA	2026-10-30	151693	74a6a735f85b28dd
+data/raw/products/en/infratec-sofia.html	https://www.fossanalytics.com/en/products/infratec-sofia	products	en	grain	Infratec™ Sofia	2026-10-30	143392	ba4c56cdcf190384
+data/raw/products/en/infratec.html	https://www.fossanalytics.com/en/products/infratec	products	en	grain	Infratec™	2026-10-30	147716	bd2e6739a2317977
+data/raw/products/en/kjeltec-8100.html	https://www.fossanalytics.com/en/products/kjeltec-8100	products	en	dairy;feed-and-forage;lab;meat	Kjeltec™ 8100 	2026-10-30	115188	eb939c87bd4ad5a7
+data/raw/products/en/kjeltec-9-analyser.html	https://www.fossanalytics.com/en/products/kjeltec-9-analyser	products	en	dairy;feed-and-forage;lab;meat	Kjeltec™ 9 - Automated Kjeldahl Analysis 	2026-10-30	126307	6d3b0bd6301fc9e7
+data/raw/products/en/kjeltec-9-distillator.html	https://www.fossanalytics.com/en/products/kjeltec-9-distillator	products	en	dairy;feed-and-forage;lab;meat	Kjeltec™ 9 Distillator	2026-10-30	116139	add6db089fabaf00
+data/raw/products/en/kn-295-knifetec.html	https://www.fossanalytics.com/en/products/kn-295-knifetec	products	en	lab	KN 295 Knifetec™	2026-10-30	107257	dee5332bb999ee6a
+data/raw/products/en/kt-200-kjeltec.html	https://www.fossanalytics.com/en/products/kt-200-kjeltec	products	en	lab	KT 200 Kjeltec™	2026-10-30	112570	0e47d470590d9b66
+data/raw/products/en/meatmaster-flex.html	https://www.fossanalytics.com/en/products/meatmaster-flex	products	en	meat	MeatMaster™ Flex	2026-10-30	106175	7c16ad2d90a91de6
+data/raw/products/en/meatmaster-ii.html	https://www.fossanalytics.com/en/products/meatmaster-ii	products	en	meat	MeatMaster™ II	2026-10-30	152794	1930eb916c533251
+data/raw/products/en/meatscan.html	https://www.fossanalytics.com/en/products/meatscan	products	en	meat	MeatScan™	2026-10-30	147285	bc69f1b7f61388d9
+data/raw/products/en/micral.html	https://www.fossanalytics.com/en/products/micral	products	en	feed-and-forage;lab	Micral™	2026-10-30	242568	dc3552727792eb0d
+data/raw/products/en/milkoscan-7-rm.html	https://www.fossanalytics.com/en/products/milkoscan-7-rm	products	en	rmt	MilkoScan™ 7 RM 	2026-10-30	114071	d88722e8638b14e4
+data/raw/products/en/milkoscan-ft3.html	https://www.fossanalytics.com/en/products/milkoscan-ft3	products	en	dairy;rmt	MilkoScan™ FT3 - Milk Analyser	2026-10-30	161985	ac8b510df2c9bb04
+data/raw/products/en/milkoscan-mars.html	https://www.fossanalytics.com/en/products/milkoscan-mars	products	en	dairy	MilkoScan™ Mars	2026-10-30	152561	c62c8c17dc7d8c77
+data/raw/products/en/mycofoss.html	https://www.fossanalytics.com/en/products/mycofoss	products	en	feed-and-forage;grain	MycoFoss™	2026-10-30	108759	abf4a18a6da61b90
+data/raw/products/en/nirs-da-1650-bone-meal-analyser.html	https://www.fossanalytics.com/en/products/nirs-da-1650-bone-meal-analyser	products	en	meat	NIRS™ DA1650 Bone Meal Analyser	2026-10-30	100433	30b42d9157816078
+data/raw/products/en/nirs-da1650-feed-analyser.html	https://www.fossanalytics.com/en/products/nirs-da1650-feed-analyser	products	en	feed-and-forage	NIRS™ DA1650 Feed Analyser	2026-10-30	148345	1448df6d63507d88
+data/raw/products/en/nirs-da1650-oilseed-crush-analyser.html	https://www.fossanalytics.com/en/products/nirs-da1650-oilseed-crush-analyser	products	en	grain	NIRS™ DA1650 Oilseed Crush Analyser	2026-10-30	106123	8d60f0e0bb52c464
+data/raw/products/en/nirs-ds2500-l.html	https://www.fossanalytics.com/en/products/nirs-ds2500-l	products	en	grain	NIRS™ DS2500 L	2026-10-30	103763	8cc3e3fd26801cb9
+data/raw/products/en/nirs-ds3-a-feed.html	https://www.fossanalytics.com/en/products/nirs-ds3-a-feed	products	en	feed-and-forage	NIRS™ DS3 A for Feed	2026-10-30	108590	8892128ddcdcb7cc
+data/raw/products/en/nirs-ds3-a.html	https://www.fossanalytics.com/en/products/nirs-ds3-a	products	en	lab	NIRS™ DS3 A	2026-10-30	110812	a8ce503805dbb0e1
+data/raw/products/en/nirs-ds3-dairy-powder-analyser.html	https://www.fossanalytics.com/en/products/nirs-ds3-dairy-powder-analyser	products	en	dairy	NIRS™ DS3 Dairy Analyser	2026-10-30	149846	9d682fb6ee3487f1
+data/raw/products/en/nirs-ds3-feed.html	https://www.fossanalytics.com/en/products/nirs-ds3-feed	products	en	feed-and-forage	NIRS™ DS3 Feed	2026-10-30	190837	e022aeb5fefc3b1b
+data/raw/products/en/nirs-ds3-flour-analyser.html	https://www.fossanalytics.com/en/products/nirs-ds3-flour-analyser	products	en	grain	NIRS™ DS3 Flour Analyser	2026-10-30	105291	d333ef9049512161
+data/raw/products/en/nirs-ds3-for-oil-processing.html	https://www.fossanalytics.com/en/products/nirs-ds3-for-oil-processing	products	en	grain	NIRS™ DS3 for oil processing	2026-10-30	146982	b268164b2fb2e4d3
+data/raw/products/en/nirs-ds3-lab.html	https://www.fossanalytics.com/en/products/nirs-ds3-lab	products	en	lab	NIRS™ DS3 food and feed analyser	2026-10-30	153055	7b142c47ae7ea1bd
+data/raw/products/en/nirs-ds3-meat-by-product-analyser.html	https://www.fossanalytics.com/en/products/nirs-ds3-meat-by-product-analyser	products	en	meat	NIRS™ DS3 meat by-product analyser	2026-10-30	107251	db251c299e0a6ef6
+data/raw/products/en/oenofoss2.html	https://www.fossanalytics.com/en/products/oenofoss2	products	en	wine	OenoFoss™ 2	2026-10-30	125772	75f325f5e4c5ac79
+data/raw/products/en/olivescan-2.html	https://www.fossanalytics.com/en/products/olivescan-2	products	en	grain	OliveScan™ 2	2026-10-30	103433	270df707a1f7b95a
+data/raw/products/en/olivia.html	https://www.fossanalytics.com/en/products/olivia	products	en	grain	Olivia™	2026-10-30	107110	08b61698463b80dd
+data/raw/products/en/processcan-2.html	https://www.fossanalytics.com/en/products/processcan-2	products	en	dairy	ProcesScan™ 2	2026-10-30	112093	233f9b4aad73be51
+data/raw/products/en/profoss-2-fresh-cheese-strained-yoghurt.html	https://www.fossanalytics.com/en/products/profoss-2-fresh-cheese-strained-yoghurt	products	en	dairy	ProFoss™ 2 Fresh Cheese/Strained Yoghurt	2026-10-30	115787	b6b2a89f4c9d89b0
+data/raw/products/en/profoss-2-milk-standardization.html	https://www.fossanalytics.com/en/products/profoss-2-milk-standardization	products	en	dairy	ProFoss™ 2 Milk Standardization	2026-10-30	113857	dfa25b2d0eef8cce
+data/raw/products/en/profoss-2-oilseed-meals.html	https://www.fossanalytics.com/en/products/profoss-2-oilseed-meals	products	en	grain	ProFoss™ 2 for oilseed meals	2026-10-30	107766	79aa9837af91abe3
+data/raw/products/en/profoss-2-whole-grain.html	https://www.fossanalytics.com/en/products/profoss-2-whole-grain	products	en	grain	ProFoss™ 2 whole grain	2026-10-30	110055	171478d6f73bb922
+data/raw/products/en/profoss-dairy.html	https://www.fossanalytics.com/en/products/profoss-dairy	products	en	dairy	ProFoss™ 2 Dairy	2026-10-30	151855	647d35d31cc6d221
+data/raw/products/en/profoss-flour.html	https://www.fossanalytics.com/en/products/profoss-flour	products	en	grain	ProFoss™ 2 for flour	2026-10-30	105678	31213a0a77ce0d4c
+data/raw/products/en/profoss-for-feed.html	https://www.fossanalytics.com/en/products/profoss-for-feed	products	en	feed-and-forage	ProFoss™ 2 for feed	2026-10-30	147310	a2b73df0122bb78c
+data/raw/products/en/profoss-poultry.html	https://www.fossanalytics.com/en/products/profoss-poultry	products	en	meat	ProFoss™ 2 Poultry  MDM	2026-10-30	147817	d960f8720456b380
+data/raw/products/en/profoss2-butter.html	https://www.fossanalytics.com/en/products/profoss2-butter	products	en	dairy	ProFoss™ 2 Butter	2026-10-30	113635	dda6ce0e810f6afa
+data/raw/products/en/profoss2-soybean-meal.html	https://www.fossanalytics.com/en/products/profoss2-soybean-meal	products	en	grain	ProFoss™ 2 Soybean meal 	2026-10-30	113249	f2c5c4b8dae66d7d
+data/raw/products/en/soxtec-8000.html	https://www.fossanalytics.com/en/products/soxtec-8000	products	en	dairy;feed-and-forage;lab;meat	Soxtec™ 8000	2026-10-30	150657	76260ce4c290abd4
+data/raw/products/en/soxtec_labtec-st-243.html	https://www.fossanalytics.com/en/products/soxtec_labtec-st-243	products	en	lab	ST 243 Soxtec™ 	2026-10-30	104598	39c5cab9a0bee864
+data/raw/products/en/soxtec_labtec-st-255.html	https://www.fossanalytics.com/en/products/soxtec_labtec-st-255	products	en	lab	ST 255 Soxtec™	2026-10-30	106676	9b95b26193dcd484
+data/raw/products/en/winescan-3-so2.html	https://www.fossanalytics.com/en/products/winescan-3-so2	products	en	wine	WineScan™ 3 SO₂	2026-10-30	117293	2858b463f9dc3cf1
+data/raw/products/en/winescan-3.html	https://www.fossanalytics.com/en/products/winescan-3	products	en	wine	WineScan™ 3	2026-10-30	116585	800cc534716c4274
+data/raw/services/services_foss-services.html	https://www.fossanalytics.com/en/services/foss-services	services	en			2026-10-30	47940	5a5d011984ce4eac
+data/raw/services/services_foss-services_analytics-packages.html	https://www.fossanalytics.com/en/services/foss-services/analytics-packages	services	en			2026-10-30	43143	04864c214f3b8bde
+data/raw/services/services_foss-services_consumables-and-spare-parts.html	https://www.fossanalytics.com/en/services/foss-services/consumables-and-spare-parts	services	en			2026-10-30	39784	a8bed0f8e0fda5fe
+data/raw/services/services_foss-services_digital-services.html	https://www.fossanalytics.com/en/services/foss-services/digital-services	services	en			2026-10-30	42776	6b2c014c698482cf
+data/raw/services/services_foss-services_service-agreements.html	https://www.fossanalytics.com/en/services/foss-services/service-agreements	services	en			2026-10-30	82849	adc4cb389c1d7c32
+data/raw/services/services_foss-services_training-courses.html	https://www.fossanalytics.com/en/services/foss-services/training-courses	services	en			2026-10-30	42954	b2004cac10c4a1f0
+data/raw/services/support_certificates.html	https://www.fossanalytics.com/en/support/certificates	services	en			2026-10-30	41085	c3ad7b413ea473ab
+data/raw/services/support_report-incident.html	https://www.fossanalytics.com/en/support/report-incident	services	en			2026-10-30	75208	2b2569258d6195d0
+data/raw/services/support_service-offerings.html	https://www.fossanalytics.com/en/support/service-offerings	services	en			2026-10-30	51708	ca9d39cf4dde42a5
+data/raw/services/support_smartcare.html	https://www.fossanalytics.com/en/support/smartcare	services	en			2026-10-30	140214	20c2beb1124820b8
+data/raw/services/support_training.html	https://www.fossanalytics.com/en/support/training	services	en			2026-10-30	75478	e570077537d96368

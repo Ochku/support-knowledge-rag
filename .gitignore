@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.env
+
+# Third-party content (FOSS documents) and generated artefacts: never commit.
+# data/sources.tsv and data/manual_downloads.md ARE committed (they're the manifest).
+data/raw/
+data/processed/
+data/qdrant_local/
+data/qdrant_server/
+results/
+.cache/
+
+# Private interview prep: keep local, never publish.
+docs/foss-briefing.md
+docs/demo-script.md
+docs/product-brief.md
+docs/backlog.md
