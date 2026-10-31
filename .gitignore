@@ -19,3 +19,7 @@ docs/foss-briefing.md
 docs/demo-script.md
 docs/product-brief.md
 docs/backlog.md
+
+# Local debugging scratch
+src/scratch/
+.vscode/
