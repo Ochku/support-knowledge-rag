@@ -130,3 +130,17 @@ def test_marker_rows_inside_grid_tables_become_headings():
     lines = sections[0].text.splitlines()
     assert "#### Options" in lines
     assert "Citric acid (Unit: g/L; Must: 0 - 5.4; Finished wine: 0 - 1.0)" in lines
+
+
+def test_feature_matrix_with_blank_corner_keeps_models_aligned():
+    html = """<section class="panel"><h2>Overview</h2><table>
+    <tr><td></td><td>200</td><td>8100</td><td>8200</td></tr>
+    <tr><td>Splash head</td><td>x</td><td>x</td><td>x</td></tr>
+    <tr><td>Safety door</td><td></td><td>x</td><td>x</td></tr>
+    <tr><td>Balance</td><td></td><td></td><td>x</td></tr>
+    </table></section>"""
+    _, sections = parse_html(html)
+    lines = sections[0].text.splitlines()
+    assert "200 | 8100 | 8200" in lines
+    assert "Safety door (8100: x; 8200: x)" in lines
+    assert "Balance (8200: x)" in lines

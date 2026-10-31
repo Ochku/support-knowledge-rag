@@ -128,16 +128,16 @@ def _grid_table(table: Tag) -> str | None:
     """Rewrite a grid table whose empty cells would shift values under the wrong column.
 
     Dropping empty cells turns ``Citric acid | g/L | 0 - 5.4 | | 0 - 1.0`` into a row where the
-    last range looks like it belongs to the third column. For tables with a header row and
-    such a gap, every value is tagged with its column name instead. Returns None for any other
-    table, which is flattened as plain rows.
+    last range looks like it belongs to the third column. For tables with a header row (its first
+    cell may be blank, as in a feature matrix) and such a gap, every value is tagged with its
+    column name instead. Returns None for any other table, which is flattened as plain rows.
     """
     trs = [tr for tr in table.find_all("tr") if _inline(tr)]
     rows = [[_inline(c) for c in tr.find_all(["th", "td"])] for tr in trs]
     labels = [_marker(tr) for tr in trs]
     width = max((len(r) for r in rows), default=0)
     header_at = next(
-        (i for i, r in enumerate(rows[:3]) if len(r) == width and all(r) and width >= 3), None
+        (i for i, r in enumerate(rows[:3]) if len(r) == width and all(r[1:]) and width >= 3), None
     )
     if header_at is None:
         return None
@@ -147,7 +147,7 @@ def _grid_table(table: Tag) -> str | None:
 
     header = rows[header_at]
     lines = [" | ".join(c for c in r if c) for r in rows[:header_at]]
-    lines.append(" | ".join(header))
+    lines.append(" | ".join(c for c in header if c))
     for r, label in zip(rows[header_at + 1 :], labels[header_at + 1 :], strict=True):
         if label:
             lines.append(f"\n{MARKER_HEADING} {label}")
