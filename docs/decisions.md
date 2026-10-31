@@ -12,6 +12,7 @@ Format: **ID · decision · why · status.** Add a line whenever you choose some
 | D-005 | **Corpus = public pages and papers only**, fetched politely, kept out of git | Legal and ethical, and reproducible via `data/sources.tsv` | Decided |
 | D-006 | **Eval set written before tuning** | Avoids overfitting to your own questions | Decided |
 | D-007 | Python 3.12, uv, `package = false` until code exists | ONNX runtime wheels are reliable on 3.12. The env works today without a package skeleton. | Decided |
+| D-008 | **Chunk IDs are slot IDs, plus a `text_hash` in the payload.** ID = uuid5 of file path + section + piece number; `text_hash` = hash of the chunk text. | Chosen for the chunking experiments: a slot ID stays the same when cleaning or chunking rules change, and joining two runs on `text_hash` shows exactly which chunks have identical text and which changed. A text-based ID would hide that, and a position-only ID would silently point at different text. Eval hits are counted by document URL, so metrics do not depend on chunk IDs. The collection is rebuilt on every ingest (about 1,100 chunks), so IDs only need to be deterministic. | Decided |
 
 ## Open: your call (with a PO recommendation)
 | ID | Question | Options | Recommendation | Decision |
