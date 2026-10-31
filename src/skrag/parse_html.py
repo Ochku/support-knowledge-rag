@@ -42,6 +42,8 @@ HEADINGS = {"h1": 1, "h2": 2, "h3": 3, "h4": 4, "h5": 5, "h6": 6}
 
 # Sentences that appear inside content sections but are consent/legal boilerplate.
 BOILERPLATE = re.compile(r"hosted on YouTube|Third Party|cookie", re.IGNORECASE)
+# Teaser for a brochure that is not in the corpus.
+BROCHURE_TEASER = re.compile(r"Read the brochure", re.IGNORECASE)
 CTA_LINES = {"See how it works", "Learn more", "Read more", "Read article", "Technical"}
 # Cross-sell teaser pasted at the end of the technical specification on many product pages.
 CROSS_SELL = re.compile(
@@ -142,7 +144,10 @@ def parse_html(html: str) -> tuple[str, list[Section]]:
         text = _text(panel)
         if not text:
             continue
-        sections.append(Section(heading=_first_heading(panel) or title, text=text))
+        heading = _first_heading(panel)
+        if BROCHURE_TEASER.match(heading):
+            continue
+        sections.append(Section(heading=heading or title, text=text))
     return title, sections
 
 

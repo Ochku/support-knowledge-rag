@@ -15,6 +15,8 @@ HTML = """
   <p>Please provide your name</p></form></section>
 <section class="panel"><p>Video: The content is hosted on YouTube.com (Third Party)</p>
   <p>Real text</p></section>
+<section class="panel"><h2>Read the brochure: Better mastitis control</h2>
+  <p>Get the insight you need</p></section>
 <footer>Contact us</footer>
 </body></html>
 """
@@ -26,7 +28,15 @@ def test_parse_html_keeps_content_and_drops_noise():
     assert title == "AlphaTM 1"
     assert "Weight | 18 kg" in text
     assert "Real text" in text
-    for noise in ("Menu", "Afghanistan", "Please provide", "Sign up", "YouTube", "Contact us"):
+    for noise in (
+        "Menu",
+        "Afghanistan",
+        "Please provide",
+        "Sign up",
+        "YouTube",
+        "Contact us",
+        "brochure",
+    ):
         assert noise not in text
 
 
