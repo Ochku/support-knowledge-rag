@@ -44,10 +44,13 @@ HEADINGS = {"h1": 1, "h2": 2, "h3": 3, "h4": 4, "h5": 5, "h6": 6}
 BOILERPLATE = re.compile(r"hosted on YouTube|Third Party|cookie", re.IGNORECASE)
 # Teaser for a brochure that is not in the corpus.
 BROCHURE_TEASER = re.compile(r"Read the brochure", re.IGNORECASE)
+MAX_MARKER_CHARS = 80
+MARKER_HEADING = "####"  # same level the pages use for blocks like "Value"
 CTA_LINES = {"See how it works", "Learn more", "Read more", "Read article", "Technical"}
 # Cross-sell teaser pasted at the end of the technical specification on many product pages.
 CROSS_SELL = re.compile(
-    r"Optimize your instrument performance\nDigital services \|[^\n]*\nService agreement \|[^\n]*"
+    r"(?:#+ )?Optimize your instrument performance"  # a marker row, so it may carry "#### "
+    r"\nDigital services \|[^\n]*\nService agreement \|[^\n]*"
 )
 
 
@@ -79,7 +82,12 @@ def _text(node: Tag) -> str:
             name = child.name
             if name in HEADINGS:
                 parts.append("\n\n" + "#" * HEADINGS[name] + " " + _inline(child) + "\n")
+            elif name == "table" and (grid := _grid_table(child)) is not None:
+                parts.append("\n" + grid + "\n")
             elif name == "tr":
+                if label := _marker(child):
+                    parts.append(f"\n\n{MARKER_HEADING} {label}\n")
+                    continue
                 cells = [_inline(c) for c in child.find_all(["th", "td"])]
                 parts.append("\n" + " | ".join(c for c in cells if c) + "\n")
             elif name == "li":
@@ -94,6 +102,61 @@ def _text(node: Tag) -> str:
 
     walk(node)
     return _clean("".join(parts))
+
+
+def _marker(tr: Tag) -> str | None:
+    """Label of a row that titles a block of rows below it, such as "Options".
+
+    Two layouts: only the first cell has text and it is bold (or a header cell), or a single
+    cell spans the full width. Longer text is a footnote, not a label.
+    """
+    cells = tr.find_all(["th", "td"])
+    texts = [_inline(c) for c in cells]
+    if not cells or not texts[0] or any(texts[1:]) or len(texts[0]) > MAX_MARKER_CHARS:
+        return None
+    if texts[0].startswith("*"):  # footnote
+        return None
+    first = cells[0]
+    colspan = str(first.get("colspan", "1"))
+    spans = len(cells) == 1 and colspan.isdigit() and int(colspan) > 1
+    if first.name == "th" or first.find(["strong", "b"]) or spans:
+        return texts[0]
+    return None
+
+
+def _grid_table(table: Tag) -> str | None:
+    """Rewrite a grid table whose empty cells would shift values under the wrong column.
+
+    Dropping empty cells turns ``Citric acid | g/L | 0 - 5.4 | | 0 - 1.0`` into a row where the
+    last range looks like it belongs to the third column. For tables with a header row and
+    such a gap, every value is tagged with its column name instead. Returns None for any other
+    table, which is flattened as plain rows.
+    """
+    trs = [tr for tr in table.find_all("tr") if _inline(tr)]
+    rows = [[_inline(c) for c in tr.find_all(["th", "td"])] for tr in trs]
+    labels = [_marker(tr) for tr in trs]
+    width = max((len(r) for r in rows), default=0)
+    header_at = next(
+        (i for i, r in enumerate(rows[:3]) if len(r) == width and all(r) and width >= 3), None
+    )
+    if header_at is None:
+        return None
+    full = [r for r in rows[header_at + 1 :] if len(r) == width]
+    if not any(not c and any(r[i + 1 :]) for r in full for i, c in enumerate(r)):
+        return None
+
+    header = rows[header_at]
+    lines = [" | ".join(c for c in r if c) for r in rows[:header_at]]
+    lines.append(" | ".join(header))
+    for r, label in zip(rows[header_at + 1 :], labels[header_at + 1 :], strict=True):
+        if label:
+            lines.append(f"\n{MARKER_HEADING} {label}")
+        elif len(r) != width:
+            lines.append(" | ".join(c for c in r if c))
+        else:
+            tagged = "; ".join(f"{h}: {c}" for h, c in zip(header[1:], r[1:], strict=True) if c)
+            lines.append(f"{r[0]} ({tagged})" if r[0] and tagged else r[0] or tagged)
+    return "\n".join(lines)
 
 
 def _inline(node: Tag) -> str:

@@ -59,3 +59,74 @@ def test_corpus_metadata_comes_from_manifest():
     assert all(p.url and p.kind and p.lang for p in pages.values())
     assert all(p.sections for p in pages.values())
     assert all(p.product_title for p in pages.values() if p.kind == "products")
+
+
+WINE_TABLE = """
+<section class="panel"><h2>Technical specification</h2><table>
+<tr><th>Components</th><th>Unit</th><th>Must</th><th>Must under fermentation</th>
+  <th>Finished wine</th></tr>
+<tr><td>Citric acid</td><td>g/L</td><td>0 - 5.4</td><td></td><td>0 - 1.0</td></tr>
+<tr><td>Ammonia</td><td>mg/L</td><td></td><td>0 - 300</td><td></td></tr>
+<tr><td>CO2</td><td>mg/L</td><td>0 - 2800</td><td></td><td></td></tr>
+</table></section>
+"""
+
+
+def test_grid_table_with_gaps_tags_values_with_their_column():
+    _, sections = parse_html(WINE_TABLE)
+    text = sections[0].text
+    assert "Citric acid (Unit: g/L; Must: 0 - 5.4; Finished wine: 0 - 1.0)" in text
+    assert "Ammonia (Unit: mg/L; Must under fermentation: 0 - 300)" in text
+    assert "Components | Unit | Must | Must under fermentation | Finished wine" in text
+
+
+def test_tables_with_only_trailing_gaps_stay_plain_rows():
+    """CO2 has empty cells only at the end, so no value can land under the wrong column."""
+    html = """<section class="panel"><h2>Specs</h2><table>
+    <tr><th>Components</th><th>Unit</th><th>Must</th><th>Finished wine</th></tr>
+    <tr><td>CO2</td><td>mg/L</td><td>0 - 2800</td><td></td></tr>
+    <tr><td>Ethanol</td><td>%</td><td>0 - 19</td><td>0 - 19</td></tr>
+    </table></section>"""
+    _, sections = parse_html(html)
+    assert "CO2 | mg/L | 0 - 2800" in sections[0].text
+    assert "(Unit" not in sections[0].text
+
+
+@needs_data
+def test_winescan_spec_keeps_stage_columns():
+    page = next(p for p in parse_all() if p.path.endswith("products/en/winescan-3.html"))
+    text = "\n".join(s.text for s in page.sections)
+    assert "Citric acid (Unit: g/L; Must: 0 - 5.4; Finished wine: 0 - 1.0)" in text
+
+
+MARKER_TABLE = """
+<section class="panel"><h2>Technical specification</h2><table>
+<tr><td colspan="4" style="background-color: #f1f1f1"><span>Included calibrations</span></td></tr>
+<tr><td>Milk</td><td>Fat, protein</td></tr>
+<tr><td><strong>Options</strong></td><td></td><td></td></tr>
+<tr><td>Color module</td><td>Yes</td></tr>
+<tr><td colspan="4">*Hammertec is specially designed for falling number, so it is only
+  listed here as a footnote and not as a label for the rows above or below it.</td></tr>
+</table></section>
+"""
+
+
+def test_marker_rows_become_headings_and_footnotes_do_not():
+    _, sections = parse_html(MARKER_TABLE)
+    lines = sections[0].text.splitlines()
+    assert "#### Included calibrations" in lines
+    assert "#### Options" in lines
+    assert "Milk | Fat, protein" in lines
+    assert not any(ln.startswith("####") and "Hammertec" in ln for ln in lines)
+
+
+def test_marker_rows_inside_grid_tables_become_headings():
+    html = WINE_TABLE.replace(
+        "</table>",
+        "<tr><td><strong>Options</strong></td><td></td><td></td><td></td><td></td></tr>"
+        "<tr><td>Color module</td><td>Yes</td></tr></table>",
+    )
+    _, sections = parse_html(html)
+    lines = sections[0].text.splitlines()
+    assert "#### Options" in lines
+    assert "Citric acid (Unit: g/L; Must: 0 - 5.4; Finished wine: 0 - 1.0)" in lines
