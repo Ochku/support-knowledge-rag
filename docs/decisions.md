@@ -14,15 +14,15 @@ Format: **ID · decision · why · status.** Add a line whenever you choose some
 | D-007 | Python 3.12, uv, `package = false` until code exists | ONNX runtime wheels are reliable on 3.12. The env works today without a package skeleton. | Decided |
 
 ## Open: your call (with a PO recommendation)
-| ID | Question | Options | Recommendation |
-|---|---|---|---|
-| O-001 | Start embedding model | MiniLM (384d, fast) · e5-large (1024d, stronger, needs `query:`/`passage:` prefixes) | **Start with MiniLM** for fast iteration. If time allows, use e5-large as the experiment. |
-| O-002 | Include `company/` pages in the QA index? | Yes · No · Yes, with `kind` filter | **No** in the default index (they answer "who is FOSS", not support questions). Keep them for the briefing. |
-| O-003 | Catalogue use | Chunks · payload metadata · lookup tool · all three | **Metadata now, lookup tool as S1.** Don't also chunk it, or you'll double-count against the product pages. |
-| O-004 | Chunk size | ~300 · ~500 tokens; overlap 0–15% | **~400 tokens, ~10% overlap.** Use the heading as the natural boundary first. |
-| O-005 | Agent loop | Manual tool loop · SDK tool runner | **Manual loop.** You can explain every step, log every tool call and cost, and it maps to any provider (incl. Azure). |
-| O-006 | Answer model and effort | Opus 5.5 (default, `medium` effort) · cheaper model | **Opus 5.5 at an explicit effort** for answers. Report cost per question. A cheaper model is a later experiment, not this weekend's. |
-| O-007 | Judge model | Same as answer model · different model | **Same tier or stronger, never weaker.** Calibrate on 10 cases regardless. |
-| O-008 | Qdrant mode | Docker · embedded | **Docker** if `docker compose up` works (you get the dashboard to show). Embedded mode is the fallback. |
-| O-009 | CLI | argparse · nothing (scripts) | **argparse with subcommands** (`ingest`, `index`, `search`, `ask`, `eval`). No extra dependency. |
-| O-010 | Experiment (G1) | hybrid vs dense · MiniLM vs e5 · chunk size | **hybrid vs dense** (cleanest story) |
+| ID | Question | Options | Recommendation | Decision |
+|---|---|---|---|---|
+| O-001 | Start embedding model | MiniLM (384d, fast) · e5-large (1024d, stronger, needs `query:`/`passage:` prefixes) | **Start with MiniLM** for fast iteration. If time allows, use e5-large as the experiment. |  |
+| O-002 | Include `company/` pages in the QA index? | Yes · No · Yes, with `kind` filter | **No** in the default index (they answer "who is FOSS", not support questions). Keep them for the briefing. |  |
+| O-003 | Catalogue use | Chunks · payload metadata · lookup tool · all three | **Metadata now, lookup tool as S1.** Don't also chunk it, or you'll double-count against the product pages. | **Payload metadata, passed through to the prompt.** Each product page chunk carries its catalogue fields (analysis time, principle, parameters, what and where you can analyse, industries), and they are shown to Claude next to the chunk text. Not chunked: duplicate catalogue chunks would fill top-k slots with the same fact. Payload is filterable but not searchable, so it only helps when the product's page chunk is retrieved or when it is printed in the prompt. Known gaps: a product missed by retrieval, comparisons, and complete lists (5 Kjeltec products, but top-5 chunks can hide some). Add a lookup tool (`name_contains` on `match_name`) only if the eval shows those failures. |
+| O-004 | Chunk size | ~300 · ~500 tokens; overlap 0–15% | **~400 tokens, ~10% overlap.** Use the heading as the natural boundary first. |  |
+| O-005 | Agent loop | Manual tool loop · SDK tool runner | **Manual loop.** You can explain every step, log every tool call and cost, and it maps to any provider (incl. Azure). |  |
+| O-006 | Answer model and effort | Opus 5.5 (default, `medium` effort) · cheaper model | **Opus 5.5 at an explicit effort** for answers. Report cost per question. A cheaper model is a later experiment, not this weekend's. |  |
+| O-007 | Judge model | Same as answer model · different model | **Same tier or stronger, never weaker.** Calibrate on 10 cases regardless. |  |
+| O-008 | Qdrant mode | Docker · embedded | **Docker** if `docker compose up` works (you get the dashboard to show). Embedded mode is the fallback. |  |
+| O-009 | CLI | argparse · nothing (scripts) | **argparse with subcommands** (`ingest`, `index`, `search`, `ask`, `eval`). No extra dependency. |  |
+| O-010 | Experiment (G1) | hybrid vs dense · MiniLM vs e5 · chunk size | **hybrid vs dense** (cleanest story) |  |
