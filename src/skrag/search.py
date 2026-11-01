@@ -1,8 +1,8 @@
 """Search the collection: dense, sparse (BM25) or hybrid (both, fused with RRF).
 
 Dense search finds chunks that mean the same thing as the question, sparse search finds chunks
-that contain its exact words, and hybrid asks Qdrant to run both and merge the two rankings
-with reciprocal rank fusion.
+that contain its exact words, and hybrid runs both and merges the two rankings with reciprocal
+rank fusion, done here so that the order of equal scores is fixed.
 """
 
 from __future__ import annotations
@@ -22,6 +22,7 @@ log = logging.getLogger(__name__)
 Mode = Literal["dense", "sparse", "hybrid"]
 QUERY_PREFIX = "query: "  # multilingual-e5 expects this on questions, as "passage: " on chunks
 CANDIDATES = 20  # how many chunks each ranking passes to the fusion
+RRF_K = 2  # Qdrant's constant, which we keep: a chunk at 0-based rank r scores 1 / (RRF_K + r)
 
 
 class Hit(BaseModel):
@@ -36,6 +37,28 @@ class Hit(BaseModel):
     page_end: int | None = None
     text: str
     payload: dict[str, object]
+
+
+def rrf_fuse(
+    rankings: list[list[models.ScoredPoint]], limit: int, k: int = RRF_K
+) -> list[models.ScoredPoint]:
+    """Merge rankings by reciprocal rank fusion: each ranking gives a chunk 1 / (k + rank).
+
+    The scores of the rankings add up. Chunks with equal scores keep a fixed order: the one
+    ranked higher in the first ranking (dense) goes first, then the one in the second, then by
+    ID. The Qdrant server leaves such ties in arbitrary order, which made runs differ.
+    """
+    scores: dict[str, float] = {}
+    points: dict[str, models.ScoredPoint] = {}
+    positions: dict[str, list[float]] = {}
+    for index, ranking in enumerate(rankings):
+        for rank, point in enumerate(ranking):
+            key = str(point.id)
+            scores[key] = scores.get(key, 0.0) + 1 / (k + rank)
+            points.setdefault(key, point)
+            positions.setdefault(key, [float("inf")] * len(rankings))[index] = rank
+    order = sorted(scores, key=lambda key: (-scores[key], *positions[key], key))
+    return [points[key].model_copy(update={"score": scores[key]}) for key in order[:limit]]
 
 
 def build_filter(
@@ -100,20 +123,21 @@ class Searcher:
                 with_payload=True,
             )
         elif mode == "hybrid":
-            response = self.client.query_points(
-                self.collection,
-                prefetch=[
-                    models.Prefetch(
-                        query=self._dense(query), using=DENSE, filter=flt, limit=CANDIDATES
-                    ),
-                    models.Prefetch(
-                        query=self._sparse(query), using=SPARSE, filter=flt, limit=CANDIDATES
-                    ),
-                ],
-                query=models.FusionQuery(fusion=models.Fusion.RRF),
-                limit=k,
-                with_payload=True,
-            )
+            rankings = [
+                self.client.query_points(
+                    self.collection,
+                    query=query_vector,
+                    using=using,
+                    query_filter=flt,
+                    limit=CANDIDATES,
+                    with_payload=True,
+                ).points
+                for query_vector, using in (
+                    (self._dense(query), DENSE),
+                    (self._sparse(query), SPARSE),
+                )
+            ]
+            return [_hit(point) for point in rrf_fuse(rankings, k)]
         else:
             raise ValueError(f"unknown mode: {mode}")
         return [_hit(point) for point in response.points]

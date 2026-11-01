@@ -2,7 +2,7 @@ import pytest
 from qdrant_client import QdrantClient, models
 
 from skrag.index import get_settings
-from skrag.search import QUERY_PREFIX, Searcher, build_filter
+from skrag.search import QUERY_PREFIX, RRF_K, Searcher, build_filter, rrf_fuse
 
 
 def test_build_filter_is_none_without_conditions():
@@ -19,6 +19,37 @@ def test_build_filter_requires_every_given_condition():
 
 def test_query_prefix_matches_the_chunk_prefix_convention():
     assert QUERY_PREFIX == "query: "
+
+
+def scored(*ids):
+    return [models.ScoredPoint(id=i, version=0, score=0.0, payload={}) for i in ids]
+
+
+def fused(rankings, limit=10):
+    return [(str(p.id), p.score) for p in rrf_fuse(rankings, limit)]
+
+
+def test_rrf_adds_the_reciprocal_ranks_of_every_list():
+    result = dict(fused([scored("a", "b"), scored("b", "c")]))
+    assert result["a"] == pytest.approx(1 / RRF_K)
+    assert result["b"] == pytest.approx(1 / (RRF_K + 1) + 1 / RRF_K)
+    assert result["c"] == pytest.approx(1 / (RRF_K + 1))
+
+
+def test_a_chunk_in_both_lists_beats_one_that_tops_a_single_list():
+    assert [i for i, _ in fused([scored("a", "b"), scored("c", "b")])][0] == "b"
+
+
+def test_equal_scores_are_ordered_by_dense_rank_then_sparse_rank_then_id():
+    # "a" tops dense only and "x" tops sparse only: same score, dense wins
+    assert [i for i, _ in fused([scored("a", "b"), scored("x", "y")])] == ["a", "x", "b", "y"]
+    # the order does not depend on the order the ids arrive in
+    assert [i for i, _ in fused([scored("b", "a"), scored("y", "x")])] == ["b", "y", "a", "x"]
+
+
+def test_rrf_cuts_to_the_limit_and_handles_empty_rankings():
+    assert len(fused([scored("a", "b", "c"), scored("d")], limit=2)) == 2
+    assert fused([[], []]) == []
 
 
 @pytest.fixture(scope="module")
