@@ -9,6 +9,7 @@ answer is built here from the numbers Claude cited, never written by the model.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import logging
 import os
@@ -239,6 +240,10 @@ class Answer:
     latency_s: float = 0.0
     requests: int = 0
     request_ids: list[str] = field(default_factory=list)
+
+    def key(self) -> str:
+        """A short fingerprint of this answer, to tie a label or a verdict to the exact text."""
+        return hashlib.sha1(f"{self.question}\n{self.text}".encode()).hexdigest()[:12]
 
     def full_text(self) -> str:
         return f"{self.text}\n\nSources:\n{self.sources}" if self.sources else self.text

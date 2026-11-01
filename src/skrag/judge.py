@@ -226,6 +226,7 @@ class CriterionResult:
 class Judgement:
     case_id: str
     question: str
+    answer_key: str = ""  # Answer.key() of the answer that was judged
     status: str = "ok"  # ok | not_judged | error
     error: str = ""
     criteria: list[CriterionResult] = field(default_factory=list)
@@ -280,7 +281,11 @@ class Judge:
     def judge(self, case: Case, answer: Answer) -> Judgement:
         started = time.perf_counter()
         result = Judgement(
-            case_id=case.id, question=case.question, model=self.model, effort=self.effort
+            case_id=case.id,
+            question=case.question,
+            answer_key=answer.key(),
+            model=self.model,
+            effort=self.effort,
         )
         result.checks = run_checks(case, answer)
         if answer.status != "ok" or not answer.text.strip():
