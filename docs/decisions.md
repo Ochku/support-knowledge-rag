@@ -13,6 +13,14 @@ Format: **ID · decision · why · status.** Add a line whenever you choose some
 | D-006 | **Eval set written before tuning** | Avoids overfitting to your own questions | Decided |
 | D-007 | Python 3.12, uv, `package = false` until code exists | ONNX runtime wheels are reliable on 3.12. The env works today without a package skeleton. | Decided |
 | D-008 | **Chunk IDs are slot IDs, plus a `text_hash` in the payload.** ID = uuid5 of file path + section + piece number; `text_hash` = hash of the chunk text. | Chosen for the chunking experiments: a slot ID stays the same when cleaning or chunking rules change, and joining two runs on `text_hash` shows exactly which chunks have identical text and which changed. A text-based ID would hide that, and a position-only ID would silently point at different text. Eval hits are counted by document URL, so metrics do not depend on chunk IDs. The collection is rebuilt on every ingest (about 1,100 chunks), so IDs only need to be deterministic. | Decided |
+| D-009 | **One collection, two named vectors per chunk:** `dense` (e5-large, cosine) and `bm25` (sparse). Payload holds every chunk field except `id` and `embed_text`; keyword indexes on `kind`, `lang`, `industries`. The collection is deleted and rebuilt on every `index` run. | Dense matches meaning, BM25 matches exact words such as product names, and both live on the same point so hybrid needs no join. `embed_text` is rebuilt from the other fields, so storing it would only duplicate the text. The indexes make the three filters cheap. Rebuilding is fast at this corpus size and keeps the index identical to what the chunker produces. | Decided |
+| D-010 | **The IDF weighting is done by Qdrant** (`Modifier.IDF` on the sparse vector); fastembed only supplies term frequencies. | IDF depends on the whole collection, so it has to be computed where the collection lives. Without it a common word such as "analysis" would count as much as a rare one such as "Kjeltec". It stays correct if chunks are added, with no re-embedding. | Decided |
+| D-011 | **Prefixes are handled by hand.** Chunks are embedded as `passage: ...`, queries as `query: ...`. The BM25 text is the chunk text **without** the `passage: ` prefix. | e5 expects both prefixes and fastembed's `query_embed` does not add the query one, so we add it. The prefix would be a word in every chunk for BM25, which makes it noise. | Decided |
+| D-012 | **Hybrid = Qdrant's server-side fusion:** prefetch the top 20 of the dense and the BM25 ranking (`CANDIDATES = 20`), fuse them with reciprocal rank fusion (RRF), then cut to `k`. No weights. | RRF uses rank positions, not scores, so there is nothing to normalise: cosine similarity and BM25 scores are not on the same scale. 20 candidates per side leaves enough room for the two rankings to overlap while keeping the query cheap. Fused scores are rank-based (1.0 = first in both lists), so they are not comparable with dense or sparse scores. | Decided; tune `CANDIDATES` only if the eval points at it |
+| D-013 | **Filters (`industry`, `lang`, `kind`) are applied inside each prefetch** and in the single-vector modes. All given conditions must hold; `industries` is a list, so one match is enough. | Filtering before fusion means each ranking already contains only allowed chunks. Fusing first and filtering after would throw most of the top-k away. | Decided |
+| D-014 | **The search smoke test (C3) is judged by reading, not asserted.** `skrag.compare` prints dense, sparse and hybrid side by side; the expected page only turns a hit green. | The backlog asks you to look at the results yourself. A pass/fail check on 5 queries would hide exactly what the comparison is meant to show, which is how the modes differ. The scored check is the eval set (Epic D). | Decided |
+| D-015 | **BM25 keeps fastembed's defaults** (`Qdrant/bm25`, English stemmer and stopwords), also for German text. | Simplest setup, and German pages are a minority of the corpus. The smoke test shows the cost: see finding 3 below. | Accepted limitation; revisit if the eval shows German failures |
+| D-016 | **The eval set is fixed before any tuning, and `skrag.evalset` checks it.** It validates the format, requires every expected URL to be in `sources.tsv` and to have indexed chunks, counts cases per category against the target mix, and with `--verify` warns about answer points that are not in the expected sources' text. | Rule #1 and D-006: the cases must not be shaped by retrieval results. Mistakes in the file (a mistyped URL, a source that was never indexed) would silently turn into retrieval misses in D2, so they are cheap to catch now. A missing answer point is only a warning because a correct point may be a paraphrase. | Decided |
 
 ## Open: your call (with a PO recommendation)
 | ID | Question | Options | Recommendation | Decision |
@@ -24,6 +32,25 @@ Format: **ID · decision · why · status.** Add a line whenever you choose some
 | O-005 | Agent loop | Manual tool loop · SDK tool runner | **Manual loop.** You can explain every step, log every tool call and cost, and it maps to any provider (incl. Azure). |  |
 | O-006 | Answer model and effort | Opus 5.5 (default, `medium` effort) · cheaper model | **Opus 5.5 at an explicit effort** for answers. Report cost per question. A cheaper model is a later experiment, not this weekend's. |  |
 | O-007 | Judge model | Same as answer model · different model | **Same tier or stronger, never weaker.** Calibrate on 10 cases regardless. |  |
-| O-008 | Qdrant mode | Docker · embedded | **Docker** if `docker compose up` works (you get the dashboard to show). Embedded mode is the fallback. |  |
+| O-008 | Qdrant mode | Docker · embedded | **Docker** if `docker compose up` works (you get the dashboard to show). Embedded mode is the fallback. | **Docker.** `QDRANT_URL` points at the compose service and `foss_docs` is indexed there. The code still falls back to embedded mode when `QDRANT_URL` is empty. |
 | O-009 | CLI | argparse · nothing (scripts) | **argparse with subcommands** (`ingest`, `index`, `search`, `ask`, `eval`). No extra dependency. |  |
 | O-010 | Experiment (G1) | hybrid vs dense · MiniLM vs e5 · chunk size | **hybrid vs dense** (cleanest story) |  |
+
+## Findings: C3 search smoke test (2026-11-01)
+
+Run with `uv run python -m skrag.compare -k 3` against 505 indexed chunks (`multilingual-e5-large` + `Qdrant/bm25`). "Hit" means the expected product or document is in the top 3.
+
+| Query | Dense | Sparse | Hybrid |
+|---|---|---|---|
+| bone fragments in meat → MeatMaster | hit, rank 1 | **miss** | hit, rank 2 |
+| Hagberg falling number → Alphatec | hit | hit | hit |
+| milk analyser fat protein → MilkoScan | hit | hit | hit |
+| Wie lange dauert eine Analyse mit dem MilkoScan FT3? | hit | hit (rank 1) | hit |
+| best practice for building a global NIR calibration | hit | hit | hit |
+| Kjeltec 8100 | hit | hit | hit |
+
+1. **Paraphrase favours dense.** "bone fragments in meat" does not use MeatMaster's wording. Dense ranks MeatMaster first, BM25 does not return it in its top 3, and hybrid still gets it in (rank 2). It sits behind a meat fat-analysis paper that I did not read for relevance, so whether that paper is a good answer is for you to judge.
+2. **Exact terms are handled by all modes.** "Hagberg falling number" and "Kjeltec 8100" are found by dense, sparse and hybrid, so on this corpus the exact-name queries do not separate the modes. Their value in hybrid has to be shown by the eval, not by these queries.
+3. **German is where BM25 is weakest.** For the German MilkoScan question, BM25's rank 2 and 3 are unrelated German pages (`kjeltec-9-analyser`, `foodscan-2-meat-analyser`), most likely matched on general German words that the English stopword list does not remove (see D-015). Dense and hybrid keep MilkoScan FT3 in all three places.
+4. **Hybrid never lost a result that a single mode found in this run.** That is 6 queries and one hand-picked expected page each, which is a sanity check and not evidence for D-003. The G1 experiment is the real comparison.
+5. **Index size is 505 chunks, not about 1,100.** `chunk_all()` and the collection agree, so the index is not stale. The "about 1,100" in D-008 and O-001 was an earlier estimate. The reasoning there does not depend on the exact number.
