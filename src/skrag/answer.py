@@ -208,6 +208,16 @@ class ToolCall:
 
 
 @dataclass
+class PassageText:
+    """A passage as Claude saw it, so that a judge can check the answer against it later."""
+
+    number: int
+    chunk_id: str
+    url: str
+    text: str
+
+
+@dataclass
 class Answer:
     question: str
     text: str = ""  # Claude's answer, with its [n] markers
@@ -218,6 +228,7 @@ class Answer:
     invalid_citations: list[int] = field(default_factory=list)
     tool_calls: list[ToolCall] = field(default_factory=list)
     retrieved_chunk_ids: list[str] = field(default_factory=list)
+    passages: list[PassageText] = field(default_factory=list)
     model: str = ""
     effort: str = ""
     input_tokens: int = 0
@@ -234,6 +245,15 @@ class Answer:
 
     def record(self) -> dict[str, object]:
         return asdict(self)
+
+    @classmethod
+    def from_record(cls, record: dict[str, Any]) -> Answer:
+        """Rebuild an answer from a line of ``answers.jsonl``. Unknown keys are ignored."""
+        known = {f for f in cls.__dataclass_fields__}
+        data = {k: v for k, v in record.items() if k in known}
+        data["tool_calls"] = [ToolCall(**call) for call in data.get("tool_calls", [])]
+        data["passages"] = [PassageText(**p) for p in data.get("passages", [])]
+        return cls(**data)
 
 
 def cost_usd(model: str, input_t: int, output_t: int, read_t: int, write_t: int) -> float | None:
@@ -283,6 +303,10 @@ class Answerer:
         result.invalid_citations = [n for n in result.cited if n not in passages.by_number]
         result.sources = sources_footer(result.cited, passages)
         result.retrieved_chunk_ids = [hit.id for _, hit in sorted(passages.by_number.items())]
+        result.passages = [
+            PassageText(number, hit.id, hit.url, _render_passage(number, hit))
+            for number, hit in sorted(passages.by_number.items())
+        ]
         result.cost_usd = cost_usd(
             self.model,
             result.input_tokens,
