@@ -1,0 +1,10 @@
+{"case_id": "spec-001", "answer_key": "0413cc8e78f5", "human_pass": true, "failed_criteria": [], "note": "", "labelled_at": "2026-11-01T19:01:13"}
+{"case_id": "spec-003", "answer_key": "79fe0a619e4e", "human_pass": true, "failed_criteria": [], "note": "", "labelled_at": "2026-11-01T19:01:41"}
+{"case_id": "multi-002", "answer_key": "d766e9c815c8", "human_pass": true, "failed_criteria": [], "note": "", "labelled_at": "2026-11-01T19:02:23"}
+{"case_id": "method-002", "answer_key": "0621db306ef9", "human_pass": true, "failed_criteria": [], "note": "", "labelled_at": "2026-11-01T19:03:56"}
+{"case_id": "xling-001", "answer_key": "390f990b331f", "human_pass": true, "failed_criteria": [], "note": "", "labelled_at": "2026-11-01T19:04:53"}
+{"case_id": "hard-004", "answer_key": "53acd19e4acf", "human_pass": true, "failed_criteria": [], "note": "", "labelled_at": "2026-11-01T19:05:17"}
+{"case_id": "hard-007", "answer_key": "c61d85e8cf90", "human_pass": true, "failed_criteria": [], "note": "", "labelled_at": "2026-11-01T19:10:10"}
+{"case_id": "unans-003", "answer_key": "7f066b5bc87d", "human_pass": true, "failed_criteria": [], "note": "", "labelled_at": "2026-11-01T19:10:43"}
+{"case_id": "unans-004", "answer_key": "0652da2d2195", "human_pass": true, "failed_criteria": [], "note": "", "labelled_at": "2026-11-01T19:11:03"}
+{"case_id": "tricky-001", "answer_key": "f56f923c165a", "human_pass": true, "failed_criteria": [], "note": "", "labelled_at": "2026-11-01T19:11:39"}
