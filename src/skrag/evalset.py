@@ -38,6 +38,10 @@ CATEGORY_TARGETS: dict[str, int] = {
     "tricky": 2,
 }
 
+# Cases tagged "hard" were added after the first retrieval baseline, to separate the search modes.
+# They sit outside the 35-case target mix and are reported as a set of their own.
+HARD = "hard"
+
 # Keys of a case's ``filters``: payload fields that search can filter on.
 FILTER_KEYS = {"industries", "lang", "kind"}
 
@@ -53,6 +57,7 @@ class Case(BaseModel):
     expected_sources: list[str] = []  # any one counts as a hit
     answer_points: list[str] = []
     filters: dict[str, str] = {}
+    tags: list[str] = []
     notes: str = ""
 
     @model_validator(mode="after")
@@ -122,8 +127,14 @@ def check_cases(cases: list[Case], manifest: dict[str, dict[str, str]]) -> list[
     return problems
 
 
+def core_cases(cases: list[Case]) -> list[Case]:
+    return [case for case in cases if HARD not in case.tags]
+
+
 def category_counts(cases: list[Case]) -> dict[str, int]:
-    return {c: sum(case.category == c for case in cases) for c in CATEGORY_TARGETS}
+    """Counts for the target mix, which only the core cases make up."""
+    core = core_cases(cases)
+    return {c: sum(case.category == c for case in core) for c in CATEGORY_TARGETS}
 
 
 # --- verification against the indexed text --------------------------------------------------
@@ -185,10 +196,12 @@ def _print_report(cases: list[Case], problems: list[Problem], console: Console) 
         have = counts[category]
         colour = "green" if have == target else "red" if have > target else "yellow"
         table.add_row(category, f"[{colour}]{have}[/]", str(target))
-    table.add_row("total", str(len(cases)), str(sum(CATEGORY_TARGETS.values())), style="bold")
+    core = len(core_cases(cases))
+    table.add_row("total", str(core), str(sum(CATEGORY_TARGETS.values())), style="bold")
     console.print(table)
     answerable = sum(c.answerable for c in cases)
     console.print(f"{answerable} answerable, {len(cases) - answerable} unanswerable")
+    console.print(f"{len(cases) - core} extra cases tagged '{HARD}'")
     for p in problems:
         colour = "red" if p.level == "error" else "yellow"
         console.print(f"[{colour}]{p.level}[/] {p.case_id}: {p.message}", markup=True)

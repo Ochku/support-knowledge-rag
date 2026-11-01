@@ -99,3 +99,8 @@ def test_category_counts_cover_every_category():
     counts = category_counts([case(), case(id="spec-002")])
     assert counts["spec"] == 2
     assert set(counts) == set(CATEGORY_TARGETS)
+
+
+def test_hard_cases_stay_outside_the_target_mix():
+    cases = [case(), case(id="spec-002", tags=["hard"])]
+    assert category_counts(cases)["spec"] == 1
